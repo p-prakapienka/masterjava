@@ -31,6 +31,12 @@ public class MainMatrix {
         ExecutorService matrixExecutor = Executors.newFixedThreadPool(THREAD_NUMBER);
         List<Future<RowResult>> futures = new LinkedList<>();
         final CompletionService<RowResult> completionService = new ExecutorCompletionService<>(matrixExecutor);
+        final int[][] BT = new int[MATRIX_SIZE][MATRIX_SIZE];
+        for (int i = 0; i < MATRIX_SIZE; i++) {
+            for (int j = 0; j < MATRIX_SIZE; j++) {
+                BT[j][i] = matrixB[i][j];
+            }
+        }
         for (int i = 0; i < MATRIX_SIZE; i++) {
             final int row = i;
             futures.add(completionService.submit(new Callable<RowResult>() {
@@ -41,7 +47,7 @@ public class MainMatrix {
                     for (int j = 0; j < MATRIX_SIZE; j++) {
                         int sum = 0;
                         for (int k = 0; k < MATRIX_SIZE; k++) {
-                            sum += matrixA[row][k] * matrixB[k][j];
+                            sum += matrixA[row][k] * BT[j][k];
                         }
                         rowResult.getRow()[j] = sum;
                     }
@@ -53,16 +59,16 @@ public class MainMatrix {
             try {
                 Future<RowResult> future = completionService.poll(5, TimeUnit.SECONDS);
                 if (future == null) {
-                    System.out.println("Error!!!");
+                    System.out.println("Null future value.");
                     throw new InterruptedException();
                 }
                 futures.remove(future);
                 RowResult rowResult = future.get();
                 matrixD[rowResult.getRowNumber()] = rowResult.getRow();
             } catch (ExecutionException ee) {
-                System.out.println("Execution exception!!!");
+                System.out.println("Execution exception.");
             } catch (InterruptedException ie) {
-                System.out.println("Interrupted exception!!!");
+                System.out.println("Interrupted exception.");
             }
         }
         matrixExecutor.shutdown();
