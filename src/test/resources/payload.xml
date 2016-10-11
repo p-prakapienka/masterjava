@@ -5,14 +5,36 @@
         <User flag="active" city="kiv">
             <email>gmail@gmail.com</email>
             <fullName>Full Name</fullName>
+            <Groups>
+                <Group project="topjava">
+                    <groupName>topjava08</groupName>
+                    <groupStatus>current</groupStatus>
+                </Group>
+            </Groups>
         </User>
         <User flag="superuser" city="spb">
             <email>admin@javaops.ru</email>
             <fullName>Admin</fullName>
+            <Groups>
+                <Group project="topjava">
+                    <groupName>topjava08</groupName>
+                    <groupStatus>current</groupStatus>
+                </Group>
+                <Group project="topjava">
+                    <groupName>topjava07</groupName>
+                    <groupStatus>finished</groupStatus>
+                </Group>
+            </Groups>
         </User>
         <User flag="deleted" city="spb">
             <email>mail@yandex.ru</email>
             <fullName>Deleted</fullName>
+            <Groups>
+                <Group project="masterjava">
+                    <groupName>masterjava00</groupName>
+                    <groupStatus>finished</groupStatus>
+                </Group>
+            </Groups>
         </User>
     </Users>
     <Cities>
@@ -20,4 +42,14 @@
         <City id="kiv">Киев</City>
         <City id="mnsk">Минск</City>
     </Cities>
+    <Projects>
+        <Project id="topjava">
+            <projectName>topjava</projectName>
+            <description>Calories</description>
+        </Project>
+        <Project id="masterjava">
+            <projectName>masterjava</projectName>
+            <description>Modules</description>
+        </Project>
+    </Projects>
 </Payload>
