@@ -3,10 +3,12 @@ package ru.javaops.masterjava.model;
 import java.util.Objects;
 
 public class User {
-    private final Integer id;
-    private final String fullName;
-    private final String email;
-    private final UserFlag flag;
+    private Integer id;
+    private String fullName;
+    private String email;
+    private UserFlag flag;
+
+    public User() {}
 
     public User(String fullName, String email, UserFlag flag) {
         this(null, fullName, email, flag);
@@ -33,6 +35,22 @@ public class User {
 
     public UserFlag getFlag() {
         return flag;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setFlag(UserFlag flag) {
+        this.flag = flag;
     }
 
     @Override
