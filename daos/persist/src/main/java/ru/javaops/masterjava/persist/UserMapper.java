@@ -23,7 +23,7 @@ public interface UserMapper {
     @Delete("DELETE FROM users WHERE id=#{id}")
     void deleteUser(Integer id);
 
-    @Select("SELECT * FROM users")
+    @Select("SELECT * FROM users LIMIT 20")
     @Results({
             @Result(id=true, property="id", column="id"),
             @Result(property="fullName", column="full_name"),

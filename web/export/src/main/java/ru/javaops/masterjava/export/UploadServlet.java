@@ -9,6 +9,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import ru.javaops.masterjava.common.web.ThymeleafUtil;
 import ru.javaops.masterjava.model.User;
+import ru.javaops.masterjava.persist.UserDao;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,6 +25,7 @@ public class UploadServlet extends HttpServlet {
 
     private static final Logger LOG = LoggerFactory.getLogger(UploadServlet.class);
     private final UserExport userExport = new UserExport();
+    private final UserDao userDao = new UserDao();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,7 +45,10 @@ public class UploadServlet extends HttpServlet {
                 if (!fileItemStream.isFormField()) {
                     try (InputStream is = fileItemStream.openStream()) {
                         List<User> users = userExport.process(is);
-                        users.forEach(u -> LOG.info(u.toString()));
+                        users.forEach(u -> {
+                            userDao.insertUser(u);
+                            LOG.info("Persist success: " + u.toString());
+                        });
                     }
                     break;
                 }
@@ -52,6 +57,6 @@ public class UploadServlet extends HttpServlet {
         } catch (Exception e) {
             LOG.info(e.getMessage());
         }
-        resp.sendRedirect(req.getContextPath());
+        resp.getWriter().write("Upload success!");
     }
 }
