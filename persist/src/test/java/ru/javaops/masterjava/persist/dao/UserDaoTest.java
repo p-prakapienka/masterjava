@@ -17,12 +17,12 @@ import java.util.List;
 @Slf4j
 public class UserDaoTest extends AbstractDaoTest<UserDao> {
 
-    private static User ADMIN = new User("Admin", "admin@javaops.ru", UserFlag.superuser);
-    private static User DELETED = new User("Deleted", "deleted@yandex.ru", UserFlag.deleted);
-    private static User FULL_NAME = new User("Full Name", "gmail@gmail.com", UserFlag.active);
-    private static User USER1 = new User("User1", "user1@gmail.com", UserFlag.active);
-    private static User USER2 = new User("User2", "user2@yandex.ru", UserFlag.active);
-    private static User USER3 = new User("User3", "user3@yandex.ru", UserFlag.active);
+    private static User ADMIN = new User("Admin", "admin@javaops.ru", UserFlag.superuser, CityDaoTest.SPB.getId(), GroupDaoTest.MASTERJAVA01.getId());
+    private static User DELETED = new User("Deleted", "deleted@yandex.ru", UserFlag.deleted, CityDaoTest.SPB.getId(), GroupDaoTest.TOPJAVA06.getId());
+    private static User FULL_NAME = new User("Full Name", "gmail@gmail.com", UserFlag.active, CityDaoTest.MOW.getId(), GroupDaoTest.TOPJAVA07.getId());
+    private static User USER1 = new User("User1", "user1@gmail.com", UserFlag.active, CityDaoTest.MOW.getId(), GroupDaoTest.TOPJAVA08.getId());
+    private static User USER2 = new User("User2", "user2@yandex.ru", UserFlag.active, CityDaoTest.KIV.getId(), GroupDaoTest.TOPJAVA08.getId());
+    private static User USER3 = new User("User3", "user3@yandex.ru", UserFlag.active, CityDaoTest.MNSK.getId(), GroupDaoTest.MASTERJAVA01.getId());
     private static List<User> FIST5_USERS = Arrays.asList(ADMIN, DELETED, FULL_NAME, USER1, USER2);
 
     public UserDaoTest() {

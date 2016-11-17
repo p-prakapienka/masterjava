@@ -10,6 +10,8 @@ import org.apache.commons.fileupload.util.Streams;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import ru.javaops.masterjava.common.web.ThymeleafUtil;
+import ru.javaops.masterjava.persist.model.City;
+import ru.javaops.masterjava.persist.model.Group;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 @WebServlet("/")
 @Slf4j
@@ -63,7 +66,9 @@ public class UploadServlet extends HttpServlet {
                     message = "Upload file is not selected";
                 } else {
                     try (InputStream is = item.openStream()) {
-                        UserExport.GroupResult result = userExport.process(is, chunkSize);
+                        Map<String, Group> groups = GroupExport.process(is);
+                        Map<String, City> cities = CityExport.process(is);
+                        UserExport.GroupResult result = userExport.process(is, chunkSize, groups, cities);
                         message = result.toString();
                     }
                     log.info("XML successfully uploaded");

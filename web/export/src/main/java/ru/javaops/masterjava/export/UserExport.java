@@ -5,6 +5,8 @@ import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import ru.javaops.masterjava.persist.DBIProvider;
 import ru.javaops.masterjava.persist.dao.UserDao;
+import ru.javaops.masterjava.persist.model.City;
+import ru.javaops.masterjava.persist.model.Group;
 import ru.javaops.masterjava.persist.model.User;
 import ru.javaops.masterjava.persist.model.UserFlag;
 import ru.javaops.masterjava.xml.util.StaxStreamProcessor;
@@ -14,6 +16,7 @@ import javax.xml.stream.events.XMLEvent;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -78,7 +81,7 @@ public class UserExport {
         }
     }
 
-    public GroupResult process(final InputStream is, int chunkSize) throws XMLStreamException {
+    public GroupResult process(final InputStream is, int chunkSize, final Map<String, Group> groups, final Map<String, City> cities) throws XMLStreamException {
         final StaxStreamProcessor processor = new StaxStreamProcessor(is);
         log.info("Start proseccing with chunkSize=" + chunkSize);
 
@@ -105,8 +108,14 @@ public class UserExport {
                 while (processor.doUntil(XMLEvent.START_ELEMENT, "User")) {
                     final String email = processor.getAttribute("email");
                     final UserFlag flag = UserFlag.valueOf(processor.getAttribute("flag"));
+                    final String cityRef = processor.getAttribute("city");
+
+                    //TODO
+                    final String groupRefs = processor.getAttribute("groupRefs");
+                    final String groupRef = groupRefs != null ? groupRefs.split("\\s")[0] : groupRefs;
+
                     final String fullName = processor.getReader().getElementText();
-                    final User user = new User(id++, fullName, email, flag);
+                    final User user = new User(id++, fullName, email, flag, cities.get(cityRef).getId(), groupRef != null ? groups.get(groupRef).getId() : null);
                     chunk.add(user);
                     if (chunk.size() == chunkSize) {
                         chunkFutures.add(submit(chunk));
