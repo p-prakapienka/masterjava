@@ -57,9 +57,15 @@ public abstract class UserDao implements AbstractDao {
     public void saveChunk(List<User> users) {
         DBIProvider.getDBI().inTransaction((handle, status) -> {
             PreparedBatch preparedBatch =
-                    handle.prepareBatch("INSERT INTO users (id, full_name, email, flag) VALUES (:1, :2, :3, CAST(:4 AS user_flag))");
-            users.forEach(u -> preparedBatch.add(u.getId(), u.getFullName(), u.getEmail(), u.getFlag()));
+                    handle.prepareBatch("INSERT INTO users (id, full_name, email, flag, city_id) VALUES (:1, :2, :3, CAST(:4 AS user_flag), :5)");
+            PreparedBatch userGroupBatch =
+                    handle.prepareBatch("INSERT INTO groups_users (group_id, user_id) VALUES (:1, :2)");
+            users.forEach(u -> {
+                preparedBatch.add(u.getId(), u.getFullName(), u.getEmail(), u.getFlag(), u.getCityId());
+                u.getGroups().forEach(g -> userGroupBatch.add(g.getId(), u.getId()));
+            });
             preparedBatch.execute();
+            userGroupBatch.execute();
             return null;
         });
     }

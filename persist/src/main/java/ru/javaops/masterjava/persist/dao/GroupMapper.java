@@ -3,6 +3,7 @@ package ru.javaops.masterjava.persist.dao;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
 import ru.javaops.masterjava.persist.model.Group;
+import ru.javaops.masterjava.persist.model.GroupFlag;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,6 +14,6 @@ import java.sql.SQLException;
 public class GroupMapper implements ResultSetMapper<Group> {
     @Override
     public Group map(int i, ResultSet rs, StatementContext statementContext) throws SQLException {
-        return new Group(rs.getInt("id"), rs.getString("group_name"), rs.getString("project_name"));
+        return new Group(rs.getInt("id"), rs.getString("group_name"), rs.getString("project_name"), GroupFlag.valueOf(rs.getString("flag")));
     }
 }

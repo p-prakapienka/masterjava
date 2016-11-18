@@ -15,9 +15,10 @@ public class Group extends BaseEntity {
     private @NonNull String groupName;
     @Column("project_name")
     private @NonNull String projectName;
+    private @NonNull GroupFlag flag;
 
-    public Group(Integer id, String groupName, String projectName) {
-        this(groupName, projectName);
+    public Group(Integer id, String groupName, String projectName, GroupFlag flag) {
+        this(groupName, projectName, flag);
         this.id = id;
     }
 }

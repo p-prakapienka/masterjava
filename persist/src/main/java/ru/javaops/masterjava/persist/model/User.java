@@ -3,6 +3,7 @@ package ru.javaops.masterjava.persist.model;
 import com.bertoncelj.jdbi.entitymapper.Column;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -15,16 +16,10 @@ public class User extends BaseEntity {
     private @NonNull String email;
     private @NonNull UserFlag flag;
     private @NonNull Integer cityId;
-    private Integer groupId;
+    private List<Group> groups;
 
-    public User(Integer id, String fullName, String email, UserFlag flag, Integer cityId, Integer groupId) {
+    public User(Integer id, String fullName, String email, UserFlag flag, Integer cityId) {
         this(fullName, email, flag, cityId);
         this.id = id;
-        this.groupId = groupId;
-    }
-
-    public User(String fullName, String email, UserFlag flag, Integer cityId, Integer groupId) {
-        this(fullName, email, flag, cityId);
-        this.groupId = groupId;
     }
 }

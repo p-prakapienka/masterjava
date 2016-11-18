@@ -26,11 +26,11 @@ public abstract class GroupDao implements AbstractDao {
         return group;
     }
 
-    @SqlUpdate("INSERT INTO groups (group_name, project_name) VALUES (:groupName, :projectName)")
+    @SqlUpdate("INSERT INTO groups (group_name, project_name, flag) VALUES (:groupName, :projectName, CAST(:flag AS group_flag))")
     @GetGeneratedKeys
     abstract int insert(@BindBean Group group);
 
-    @SqlUpdate("UPDATE groups SET group_name=:groupName, project_name=:projectName WHERE id=:id")
+    @SqlUpdate("UPDATE groups SET group_name=:groupName, project_name=:projectName, flag=CAST(:flag AS group_flag) WHERE id=:id")
     abstract void update(@BindBean Group group);
 
     @SqlQuery("SELECT * FROM groups WHERE id=:it")

@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import ru.javaops.masterjava.persist.DBIProvider;
 import ru.javaops.masterjava.persist.model.Group;
+import ru.javaops.masterjava.persist.model.GroupFlag;
 import ru.javaops.masterjava.persist.model.Projects;
 
 import java.util.List;
@@ -15,10 +16,10 @@ import java.util.List;
 @Slf4j
 public class GroupDaoTest extends AbstractDaoTest<GroupDao> {
 
-    static Group TOPJAVA06 = new Group("topjava06", Projects.TOPJAVA);
-    static Group TOPJAVA07 = new Group("topjava07", Projects.TOPJAVA);
-    static Group TOPJAVA08 = new Group("topjava08", Projects.TOPJAVA);
-    static Group MASTERJAVA01 = new Group("masterjava01", Projects.MASTERJAVA);
+    static Group TOPJAVA06 = new Group("topjava06", Projects.TOPJAVA, GroupFlag.FINISHED);
+    static Group TOPJAVA07 = new Group("topjava07", Projects.TOPJAVA, GroupFlag.FINISHED);
+    static Group TOPJAVA08 = new Group("topjava08", Projects.TOPJAVA, GroupFlag.CURRENT);
+    static Group MASTERJAVA01 = new Group("masterjava01", Projects.MASTERJAVA, GroupFlag.CURRENT);
 
     public GroupDaoTest() {
         super(GroupDao.class);

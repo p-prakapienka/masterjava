@@ -4,6 +4,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import ru.javaops.masterjava.persist.DBIProvider;
+import ru.javaops.masterjava.persist.dao.CityDao;
+import ru.javaops.masterjava.persist.dao.GroupDao;
+import ru.javaops.masterjava.persist.dao.GroupUserDao;
 import ru.javaops.masterjava.persist.dao.UserDao;
 import ru.javaops.masterjava.persist.model.City;
 import ru.javaops.masterjava.persist.model.Group;
@@ -14,13 +17,12 @@ import ru.javaops.masterjava.xml.util.StaxStreamProcessor;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 /**
  * gkislin
@@ -81,8 +83,8 @@ public class UserExport {
         }
     }
 
-    public GroupResult process(final InputStream is, int chunkSize, final Map<String, Group> groups, final Map<String, City> cities) throws XMLStreamException {
-        final StaxStreamProcessor processor = new StaxStreamProcessor(is);
+    public GroupResult process(final StaxStreamProcessor processor, int chunkSize, final Map<String, Group> groups, final Map<String, City> cities) throws XMLStreamException {
+
         log.info("Start proseccing with chunkSize=" + chunkSize);
 
         return new Callable<GroupResult>() {
@@ -110,12 +112,18 @@ public class UserExport {
                     final UserFlag flag = UserFlag.valueOf(processor.getAttribute("flag"));
                     final String cityRef = processor.getAttribute("city");
 
-                    //TODO
                     final String groupRefs = processor.getAttribute("groupRefs");
-                    final String groupRef = groupRefs != null ? groupRefs.split("\\s")[0] : groupRefs;
+                    List<Group> userGroups = Collections.emptyList();
+                    if (groupRefs != null) {
+                        userGroups = Arrays.asList(groupRefs.split("\\s"))
+                                .stream()
+                                .map(g -> groups.get(g))
+                                .collect(Collectors.toList());
+                    }
 
                     final String fullName = processor.getReader().getElementText();
-                    final User user = new User(id++, fullName, email, flag, cities.get(cityRef).getId(), groupRef != null ? groups.get(groupRef).getId() : null);
+                    final User user = new User(id++, fullName, email, flag, cities.get(cityRef).getId());
+                    user.setGroups(userGroups);
                     chunk.add(user);
                     if (chunk.size() == chunkSize) {
                         chunkFutures.add(submit(chunk));

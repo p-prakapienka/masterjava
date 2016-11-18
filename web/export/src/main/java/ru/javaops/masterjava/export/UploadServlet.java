@@ -12,6 +12,7 @@ import org.thymeleaf.context.WebContext;
 import ru.javaops.masterjava.common.web.ThymeleafUtil;
 import ru.javaops.masterjava.persist.model.City;
 import ru.javaops.masterjava.persist.model.Group;
+import ru.javaops.masterjava.xml.util.StaxStreamProcessor;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 @WebServlet("/")
@@ -27,6 +29,8 @@ import java.util.Map;
 public class UploadServlet extends HttpServlet {
 
     private final UserExport userExport = new UserExport();
+    private final GroupExport groupExport = new GroupExport();
+    private final CityExport cityExport = new CityExport();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -66,9 +70,12 @@ public class UploadServlet extends HttpServlet {
                     message = "Upload file is not selected";
                 } else {
                     try (InputStream is = item.openStream()) {
-                        Map<String, Group> groups = GroupExport.process(is);
-                        Map<String, City> cities = CityExport.process(is);
-                        UserExport.GroupResult result = userExport.process(is, chunkSize, groups, cities);
+                        final StaxStreamProcessor processor = new StaxStreamProcessor(is);
+                        Map<String, Group> groups = groupExport.process(processor);
+                        groups.forEach((k,v) -> log.info("Group {} successfully exported.", k));
+                        Map<String, City> cities = cityExport.process(processor);
+                        cities.forEach((k,v) -> log.info("City {} successfully exported.", k));
+                        UserExport.GroupResult result = userExport.process(processor, chunkSize, groups, cities);
                         message = result.toString();
                     }
                     log.info("XML successfully uploaded");

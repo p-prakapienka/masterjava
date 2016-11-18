@@ -1,8 +1,10 @@
 package ru.javaops.masterjava.export;
 
+import lombok.extern.slf4j.Slf4j;
 import ru.javaops.masterjava.persist.DBIProvider;
 import ru.javaops.masterjava.persist.dao.GroupDao;
 import ru.javaops.masterjava.persist.model.Group;
+import ru.javaops.masterjava.persist.model.GroupFlag;
 import ru.javaops.masterjava.xml.util.StaxStreamProcessor;
 
 import javax.xml.stream.XMLStreamException;
@@ -14,23 +16,25 @@ import java.util.Map;
 /**
  * Created by Restrictor on 18.11.2016.
  */
+@Slf4j
 public class GroupExport {
 
-    private final static GroupDao groupDao = DBIProvider.getDao(GroupDao.class);
+    private final GroupDao groupDao = DBIProvider.getDao(GroupDao.class);
 
-    public static Map<String, Group> process(final InputStream is) throws XMLStreamException {
-        final StaxStreamProcessor processor = new StaxStreamProcessor(is);
+    public Map<String, Group> process(final StaxStreamProcessor processor) throws XMLStreamException {
+        log.info("Start processing projects");
+
         Map<String, Group> groups = new HashMap<>();
-
-        while (processor.doUntil(XMLEvent.START_ELEMENT, "Project")) {
-            final String projectName = processor.getAttribute("name");
-
-            while (processor.doUntil(XMLEvent.START_ELEMENT, "Group")) {
+        String element;
+        String projectName = "";
+        while (!(element = processor.doUntilAny(XMLEvent.START_ELEMENT, "Project", "Group", "Cities")).equals("Cities")) {
+            if ("Project".equals(element)) {
+                projectName = processor.getAttribute("name");
+            } else if ("Group".equals(element)) {
                 final String groupName = processor.getAttribute("name");
-                //TODO
-                final String groupStatus = processor.getAttribute("type");
+                final GroupFlag groupFlag = GroupFlag.valueOf(processor.getAttribute("type"));
 
-                final Group group = groupDao.save(new Group(groupName, projectName));
+                final Group group = groupDao.save(new Group(groupName, projectName, groupFlag));
                 groups.put(groupName, group);
             }
         }
