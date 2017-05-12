@@ -35,5 +35,5 @@ public abstract class CityDao implements AbstractDao {
     }
 
     @SqlBatch("INSERT INTO city (ref, name) VALUES (:ref, :name)")
-    public abstract void insertBatch(Collection<City> cities);
+    public abstract void insertBatch(@BindBean Collection<City> cities);
 }

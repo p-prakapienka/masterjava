@@ -25,9 +25,9 @@ public class UserGroupTestData {
 
         USER_GROUPS = toUserGroups(UserTestData.ADMIN.getId(), TOPJAVA_07_ID, TOPJAVA_08_ID, MASTERJAVA_01_ID);
         USER_GROUPS.addAll(toUserGroups(UserTestData.FULL_NAME.getId(), TOPJAVA_07_ID, MASTERJAVA_01_ID));
-        USER_GROUPS.addAll((toUserGroups(UserTestData.USER1.getId(), TOPJAVA_06_ID, MASTERJAVA_01_ID)));
-        USER_GROUPS.addAll((toUserGroups(UserTestData.USER2.getId(), MASTERJAVA_01_ID)));
-        USER_GROUPS.addAll((toUserGroups(UserTestData.USER3.getId(), MASTERJAVA_01_ID)));
+        USER_GROUPS.addAll(toUserGroups(UserTestData.USER1.getId(), TOPJAVA_06_ID, MASTERJAVA_01_ID));
+        USER_GROUPS.add(new UserGroup(UserTestData.USER2.getId(), MASTERJAVA_01_ID));
+        USER_GROUPS.add(new UserGroup(UserTestData.USER3.getId(), MASTERJAVA_01_ID));
     }
 
     public static void setUp() {
