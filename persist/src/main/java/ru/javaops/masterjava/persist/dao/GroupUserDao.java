@@ -3,9 +3,6 @@ package ru.javaops.masterjava.persist.dao;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import ru.javaops.masterjava.persist.AbstractDao;
-import ru.javaops.masterjava.persist.model.User;
-
-import java.util.List;
 
 /**
  * Created by Restrictor on 18.11.2016.

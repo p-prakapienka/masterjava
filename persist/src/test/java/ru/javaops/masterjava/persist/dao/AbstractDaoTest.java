@@ -1,9 +1,15 @@
 package ru.javaops.masterjava.persist.dao;
 
+import com.google.common.io.Resources;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
+import org.skife.jdbi.v2.Handle;
 import ru.javaops.masterjava.persist.AbstractDao;
 import ru.javaops.masterjava.persist.DBIProvider;
 import ru.javaops.masterjava.persist.DBITestProvider;
+import ru.javaops.masterjava.persist.DBPopulator;
+
+import java.io.*;
 
 /**
  * gkislin
@@ -22,7 +28,7 @@ public abstract class AbstractDaoTest<DAO extends AbstractDao> {
 
     @Before
     public void setUp() throws Exception {
-        dao.clean();
+        DBPopulator.executeSqlScript("initDB.sql");
     }
 
 }

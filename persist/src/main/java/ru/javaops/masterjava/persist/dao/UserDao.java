@@ -29,14 +29,14 @@ public abstract class UserDao implements AbstractDao {
         return user;
     }
 
-    @SqlUpdate("INSERT INTO users (full_name, email, flag, city_id, group_id) VALUES (:fullName, :email, CAST(:flag AS user_flag), :cityId, :groupId) ")
+    @SqlUpdate("INSERT INTO users (full_name, email, flag, city_id) VALUES (:fullName, :email, CAST(:flag AS user_flag), :cityId) ")
     @GetGeneratedKeys
     abstract int insertGeneratedId(@BindBean User user);
 
-    @SqlUpdate("INSERT INTO users (id, full_name, email, flag, city_id, group_id) VALUES (:id, :fullName, :email, CAST(:flag AS user_flag), :cityId, :groupId) ")
+    @SqlUpdate("INSERT INTO users (id, full_name, email, flag, city_id) VALUES (:id, :fullName, :email, CAST(:flag AS user_flag), :cityId) ")
     abstract void insertWitId(@BindBean User user);
 
-    @SqlQuery("SELECT * FROM users ORDER BY full_name, email LIMIT :it")
+    @SqlQuery("SELECT * FROM users JOIN cities ON users.city_id=cities.id ORDER BY users.full_name, users.email LIMIT :it")
     public abstract List<User> getWithLimit(@Bind int limit);
 
     //   http://stackoverflow.com/questions/13223820/postgresql-delete-all-content

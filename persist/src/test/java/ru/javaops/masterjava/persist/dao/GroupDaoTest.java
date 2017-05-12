@@ -8,6 +8,7 @@ import ru.javaops.masterjava.persist.model.Group;
 import ru.javaops.masterjava.persist.model.GroupFlag;
 import ru.javaops.masterjava.persist.model.Projects;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,6 +21,12 @@ public class GroupDaoTest extends AbstractDaoTest<GroupDao> {
     static Group TOPJAVA07 = new Group("topjava07", Projects.TOPJAVA, GroupFlag.FINISHED);
     static Group TOPJAVA08 = new Group("topjava08", Projects.TOPJAVA, GroupFlag.CURRENT);
     static Group MASTERJAVA01 = new Group("masterjava01", Projects.MASTERJAVA, GroupFlag.CURRENT);
+    static List<Group> GROUPS = Arrays.asList(MASTERJAVA01, TOPJAVA06, TOPJAVA07, TOPJAVA08);
+
+    static Integer TOPJAVA06_ID = 5;
+    static Integer TOPJAVA07_ID = 6;
+    static Integer TOPJAVA08_ID = 7;
+    static Integer MASTERJAVA01_ID = 8;
 
     public GroupDaoTest() {
         super(GroupDao.class);
@@ -29,15 +36,10 @@ public class GroupDaoTest extends AbstractDaoTest<GroupDao> {
     public void setUp() throws Exception {
         super.setUp();
 
-        TOPJAVA06.setId(null);
-        TOPJAVA07.setId(null);
-        TOPJAVA08.setId(null);
-        MASTERJAVA01.setId(null);
-
-        dao.save(TOPJAVA06);
-        dao.save(TOPJAVA07);
-        dao.save(TOPJAVA08);
-        dao.save(MASTERJAVA01);
+        GROUPS.forEach(g -> {
+            g.setId(null);
+            dao.save(g);
+        });
 
         log.info("-----------   End setUp ---------------\n");
     }
@@ -46,6 +48,7 @@ public class GroupDaoTest extends AbstractDaoTest<GroupDao> {
     public void getAll() {
         List<Group> groups = dao.getAll();
         Assert.assertEquals(4, groups.size());
+        Assert.assertArrayEquals(groups.toArray(), GROUPS.toArray());
     }
 
     @Test

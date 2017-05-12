@@ -6,6 +6,7 @@ import org.junit.Test;
 import ru.javaops.masterjava.persist.DBIProvider;
 import ru.javaops.masterjava.persist.model.City;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,6 +19,12 @@ public class CityDaoTest extends AbstractDaoTest<CityDao> {
     static City MOW = new City("Москва");
     static City KIV = new City("Киев");
     static City MNSK = new City("Минск");
+    static List<City> CITIES = Arrays.asList(KIV, MNSK, MOW, SPB);
+
+    static Integer SPB_ID = 1;
+    static Integer MOW_ID = 2;
+    static Integer KIV_ID = 3;
+    static Integer MNSK_ID = 4;
 
     public CityDaoTest() {
         super(CityDao.class);
@@ -27,15 +34,10 @@ public class CityDaoTest extends AbstractDaoTest<CityDao> {
     public void setUp() throws Exception {
         super.setUp();
 
-        SPB.setId(null);
-        MOW.setId(null);
-        KIV.setId(null);
-        MNSK.setId(null);
-
-        dao.save(SPB);
-        dao.save(MOW);
-        dao.save(KIV);
-        dao.save(MNSK);
+        CITIES.forEach(c -> {
+            c.setId(null);
+            dao.save(c);
+        });
 
         log.info("-----------   End setUp ---------------\n");
     }
@@ -44,6 +46,7 @@ public class CityDaoTest extends AbstractDaoTest<CityDao> {
     public void getAll() {
         List<City> cities = dao.getAll();
         Assert.assertEquals(4, cities.size());
+        Assert.assertArrayEquals(cities.toArray(), CITIES.toArray());
     }
 
     @Test
