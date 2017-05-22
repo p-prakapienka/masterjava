@@ -53,6 +53,6 @@ public abstract class UserDao implements AbstractDao {
         return id;
     }
 
-    @SqlBatch("INSERT INTO users (id, full_name, email, flag, city_id) VALUES (:id, :fullName, :email, CAST(:flag AS user_flag), :cityId")
+    @SqlBatch("INSERT INTO users (id, full_name, email, flag, city_id) VALUES (:id, :fullName, :email, CAST(:flag AS user_flag), :cityId)")
     public abstract void insertBatch(@BindBean List<User> users);
 }
