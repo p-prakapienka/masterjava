@@ -3,9 +3,14 @@ package ru.javaops.masterjava.service.mail;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
-@WebService
+@WebService(targetNamespace = "http://mail.javaops.ru/")
+//@SOAPBinding(
+//        style = SOAPBinding.Style.DOCUMENT,
+//        use = SOAPBinding.Use.LITERAL,
+//        parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface MailService {
 
     @WebMethod
