@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import ru.javaops.web.WsClient;
 
 import javax.xml.namespace.QName;
-import java.util.List;
+import java.util.Set;
 
 @Slf4j
 public class MailWSClient {
@@ -19,8 +19,17 @@ public class MailWSClient {
         WS_CLIENT.init("mail", "/mail/mailService?wsdl");
     }
 
-    public static void sendMail(final List<Addressee> to, final List<Addressee> cc, final String subject, final String body) {
+    public static String sendBulkMail(final Set<Addressee> to, final Set<Addressee> cc, final String subject, final String body) {
         log.info("Send mail to '" + to + "' cc '" + cc + "' subject '" + subject + (log.isDebugEnabled() ? "\nbody=" + body : ""));
-        WS_CLIENT.getPort().sendMail(to, cc, subject, body);
+        String status = WS_CLIENT.getPort().sendBulkMail(to, cc, subject, body);
+        log.info("Sent with status: " + status);
+        return status;
+    }
+
+    public static GroupResult sendIndividualMails(final Set<Addressee> to, final String subject, final String body) {
+        log.info("Send mail to '" + to + "' subject '" + subject + (log.isDebugEnabled() ? "\nbody=" + body : ""));
+        GroupResult result = WS_CLIENT.getPort().sendIndividualMails(to, subject, body);
+        log.info("Sent with result: " + result);
+        return result;
     }
 }

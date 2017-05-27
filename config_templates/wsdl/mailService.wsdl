@@ -8,16 +8,51 @@
              name="MailServiceImplService">
     <types>
         <xs:schema targetNamespace="http://mail.javaops.ru/">
-            <xs:element name="sendMail" type="tns:sendMail"/>
-            <xs:element name="sendMailResponse" type="tns:sendMailResponse"/>
+            <xs:element name="sendBulkMail" type="tns:sendBulkMail"/>
+            <xs:element name="sendBulkMailResponse" type="tns:sendBulkMailResponse"/>
+            <xs:element name="sendIndividualMails" type="tns:sendIndividualMails"/>
+            <xs:element name="sendIndividualMailsResponse" type="tns:sendIndividualMailsResponse"/>
 
-            <xs:complexType name="sendMail">
+            <xs:complexType name="sendBulkMail">
                 <xs:sequence>
                     <xs:element name="to" type="tns:addressee" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="cc" type="tns:addressee" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="subject" type="xs:string" minOccurs="0"/>
                     <xs:element name="body" type="xs:string" minOccurs="0"/>
                 </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="sendBulkMailResponse">
+                <xs:sequence>
+                    <xs:element name="status" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            
+            <xs:complexType name="sendIndividualMails">
+                <xs:sequence>
+                    <xs:element name="to" type="tns:addressee" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="subject" type="xs:string" minOccurs="0"/>
+                    <xs:element name="body" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="sendIndividualMailsResponse">
+                <xs:sequence>
+                    <xs:element name="groupResult" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="failed" type="tns:mailResult" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+                                <xs:element name="failedCause" type="xs:string" minOccurs="0"/>
+                                <xs:element name="success" type="xs:int"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="mailResult">
+                <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                        <xs:attribute type="xs:string" name="email"/>
+                    </xs:extension>
+                </xs:simpleContent>
             </xs:complexType>
 
             <xs:complexType name="addressee">
@@ -27,29 +62,47 @@
                     </xs:extension>
                 </xs:simpleContent>
             </xs:complexType>
-
-            <xs:complexType name="sendMailResponse">
-                <xs:sequence/>
-            </xs:complexType>
         </xs:schema>
     </types>
-    <message name="sendMail">
-        <part name="parameters" element="tns:sendMail"/>
+    
+    <message name="sendIndividualMails">
+        <part name="parameters" element="tns:sendIndividualMails"/>
     </message>
-    <message name="sendMailResponse">
-        <part name="parameters" element="tns:sendMailResponse"/>
+    <message name="sendIndividualMailsResponse">
+        <part name="parameters" element="tns:sendIndividualMailsResponse"/>
     </message>
+    <message name="sendBulkMail">
+        <part name="parameters" element="tns:sendBulkMail"/>
+    </message>
+    <message name="sendBulkMailResponse">
+        <part name="parameters" element="tns:sendBulkMailResponse"/>
+    </message>
+
     <portType name="MailService">
-        <operation name="sendMail">
-            <input wsam:Action="http://mail.service.masterjava.javaops.ru/MailService/sendMailRequest"
-                   message="tns:sendMail"/>
-            <output wsam:Action="http://mail.service.masterjava.javaops.ru/MailService/sendMailResponse"
-                    message="tns:sendMailResponse"/>
+        <operation name="sendIndividualMails">
+            <input wsam:Action="http://mail.javaops.ru/MailService/sendIndividualMailsRequest"
+                   message="tns:sendIndividualMails"/>
+            <output wsam:Action="http://mail.javaops.ru/MailService/sendIndividualMailsResponse"
+                    message="tns:sendIndividualMailsResponse"/>
+        </operation>
+        <operation name="sendBulkMail">
+            <input wsam:Action="http://mail.javaops.ru/MailService/sendBulkMailRequest" message="tns:sendBulkMail"/>
+            <output wsam:Action="http://mail.javaops.ru/MailService/sendBulkMailResponse"
+                    message="tns:sendBulkMailResponse"/>
         </operation>
     </portType>
     <binding name="MailServiceImplPortBinding" type="tns:MailService">
         <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-        <operation name="sendMail">
+        <operation name="sendIndividualMails">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="sendBulkMail">
             <soap:operation soapAction=""/>
             <input>
                 <soap:body use="literal"/>
