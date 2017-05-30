@@ -23,7 +23,7 @@ public class MailServiceExecutor {
                 .collect(Collectors.toList());
 
         return new Callable<GroupResult>() {
-            private int success;
+            private int success = 0;
             private List<MailResult> failed = new ArrayList<>();
 
             @Override
