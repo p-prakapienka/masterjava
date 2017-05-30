@@ -91,14 +91,14 @@
             <output wsam:Action="http://mail.javaops.ru/MailService/sendIndividualMailsResponse"
                     message="tns:sendIndividualMailsResponse"/>
             <fault wsam:Action="http://mail.javaops.ru/MailService/sendBulkMail/Fault/WebStateException"
-                   message="WebStateException" name="WebStateException"/>
+                   message="tns:WebStateException" name="WebStateException"/>
         </operation>
         <operation name="sendBulkMail">
             <input wsam:Action="http://mail.javaops.ru/MailService/sendBulkMailRequest" message="tns:sendBulkMail"/>
             <output wsam:Action="http://mail.javaops.ru/MailService/sendBulkMailResponse"
                     message="tns:sendBulkMailResponse"/>
             <fault wsam:Action="http://mail.javaops.ru/MailService/sendBulkMail/Fault/WebStateException"
-                   message="WebStateException" name="WebStateException"/>
+                   message="tns:WebStateException" name="WebStateException"/>
         </operation>
     </portType>
     <binding name="MailServiceImplPortBinding" type="tns:MailService">
