@@ -2,6 +2,7 @@ package ru.javaops.masterjava.service.mail;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import ru.javaops.web.WebStateException;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -27,10 +28,14 @@ public class MailServiceClient {
                 new Addressee("Мастер Java <masterjava@javaops.ru>"),
                 new Addressee("Bad Email <bad_email.ru>"));
 
-        String status = mailService.sendBulkMail(addressees, ImmutableSet.of(), "Bulk email subject", "Bulk email body");
-        System.out.println(status);
+        try {
+            String status = mailService.sendBulkMail(addressees, ImmutableSet.of(), "Bulk email subject", "Bulk email body");
+            System.out.println(status);
 
-        GroupResult groupResult = mailService.sendIndividualMails(addressees, "Individual mail subject", "Individual mail body");
-        System.out.println(groupResult);
+            GroupResult groupResult = mailService.sendIndividualMails(addressees, "Individual mail subject", "Individual mail body");
+            System.out.println(groupResult);
+        } catch (WebStateException e) {
+            System.out.println(e);
+        }
     }
 }

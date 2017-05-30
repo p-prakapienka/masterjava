@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class GroupResult {
     private int success; // number of successfully sent email
-    private List<MailResult> failed; // failed emails with causes
+    private List<MailResult> failed = ImmutableList.of(); // failed emails with causes
     private String failedCause;  // global fail cause
 
     public GroupResult(Exception e) {

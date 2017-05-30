@@ -1,4 +1,4 @@
-package ru.javaops.masterjava.web;
+package ru.javaops.web;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.javaops.masterjava.service.mail.GroupResult;

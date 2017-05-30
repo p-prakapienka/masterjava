@@ -1,6 +1,7 @@
 package ru.javaops.web;
 
 import com.typesafe.config.Config;
+import ru.javaops.masterjava.ExceptionType;
 import ru.javaops.masterjava.config.Configs;
 
 import javax.xml.namespace.QName;
@@ -35,5 +36,10 @@ public class WsClient<T> {
 
     public T getPort() {
         return port;
+    }
+
+    public static WebStateException getWebStateException(Exception e) {
+        return (e instanceof WebStateException) ?
+                (WebStateException) e : new WebStateException(ExceptionType.NETWORK, e);
     }
 }

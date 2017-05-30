@@ -1,4 +1,4 @@
-package ru.javaops.masterjava.web;
+package ru.javaops.web;
 
 import com.google.common.collect.ImmutableMap;
 import org.thymeleaf.TemplateEngine;
