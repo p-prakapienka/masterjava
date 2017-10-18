@@ -11,8 +11,8 @@ import java.util.Set;
 @WebService(endpointInterface = "ru.javaops.masterjava.service.mail.MailService", targetNamespace = "http://mail.javaops.ru/"
 //          , wsdlLocation = "WEB-INF/wsdl/mailService.wsdl"
 )
-@StreamingAttachment(parseEagerly = true, memoryThreshold = 1024)
-@MTOM
+//@StreamingAttachment(parseEagerly = true, memoryThreshold = 1024)
+//@MTOM
 public class MailServiceImpl implements MailService {
     private final MailServiceExecutor mailServiceExecutor = new MailServiceExecutor();
 
