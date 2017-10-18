@@ -7,6 +7,7 @@ import com.google.common.io.Resources;
 import java.util.List;
 import javax.xml.ws.soap.MTOMFeature;
 import lombok.extern.slf4j.Slf4j;
+import ru.javaops.web.AuthUtil;
 import ru.javaops.web.WebStateException;
 import ru.javaops.web.WsClient;
 
@@ -16,6 +17,10 @@ import java.util.Set;
 @Slf4j
 public class MailWSClient {
     private static final WsClient<MailService> WS_CLIENT;
+    public static final String USER = "user";
+    public static final String PASSWORD = "password";
+
+    public static final String AUTH_HEADER = AuthUtil.encodeBasicAuth(USER, PASSWORD);
 
     static {
         WS_CLIENT = new WsClient<MailService>(Resources.getResource("wsdl/mailService.wsdl"),
@@ -50,7 +55,9 @@ public class MailWSClient {
     }
 
     private static MailService getPort() {
-        return WS_CLIENT.getPort(new MTOMFeature(1024));
+        MailService port = WS_CLIENT.getPort(/*new MTOMFeature(1024)*/);
+        WsClient.setAuth(port, USER, PASSWORD);
+        return port;
     }
 
     public static Set<Addressee> split(String addressees) {
