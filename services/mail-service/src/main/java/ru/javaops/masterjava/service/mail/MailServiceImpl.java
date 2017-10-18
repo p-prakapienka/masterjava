@@ -4,6 +4,7 @@ import com.sun.xml.ws.developer.StreamingAttachment;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+import javax.jws.HandlerChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceContext;
@@ -20,6 +21,7 @@ import java.util.Set;
 )
 //@StreamingAttachment(parseEagerly = true, memoryThreshold = 1024)
 //@MTOM
+@HandlerChain(file = "mailWsHandlers.xml")
 public class MailServiceImpl implements MailService {
     private final MailServiceExecutor mailServiceExecutor = new MailServiceExecutor();
 

@@ -1,7 +1,10 @@
 package ru.javaops.web;
 
 import com.typesafe.config.Config;
+import java.util.List;
+import javax.xml.ws.Binding;
 import javax.xml.ws.WebServiceFeature;
+import javax.xml.ws.handler.Handler;
 import ru.javaops.masterjava.ExceptionType;
 import ru.javaops.masterjava.config.Configs;
 
@@ -38,6 +41,13 @@ public class WsClient<T> {
         Map<String, Object> requestContext = bp.getRequestContext();
         requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endpointAddress);
         return port;
+    }
+
+    public static <T> void setHandler(T port, Handler handler) {
+        Binding binding = ((BindingProvider)port).getBinding();
+        List<Handler> handlerList = binding.getHandlerChain();
+        handlerList.add(handler);
+        binding.setHandlerChain(handlerList);
     }
 
     public static <T> void setAuth(T port, String user, String password) {

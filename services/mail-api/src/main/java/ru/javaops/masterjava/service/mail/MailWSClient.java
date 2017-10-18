@@ -7,18 +7,21 @@ import com.google.common.io.Resources;
 import java.util.List;
 import javax.xml.ws.soap.MTOMFeature;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.event.Level;
 import ru.javaops.web.AuthUtil;
 import ru.javaops.web.WebStateException;
 import ru.javaops.web.WsClient;
 
 import javax.xml.namespace.QName;
 import java.util.Set;
+import ru.javaops.web.handler.SoapClientLoggingHandler;
 
 @Slf4j
 public class MailWSClient {
     private static final WsClient<MailService> WS_CLIENT;
     public static final String USER = "user";
     public static final String PASSWORD = "password";
+    private static final SoapClientLoggingHandler LOGGING_HANDLER = new SoapClientLoggingHandler(Level.DEBUG);
 
     public static final String AUTH_HEADER = AuthUtil.encodeBasicAuth(USER, PASSWORD);
 
@@ -57,6 +60,7 @@ public class MailWSClient {
     private static MailService getPort() {
         MailService port = WS_CLIENT.getPort(/*new MTOMFeature(1024)*/);
         WsClient.setAuth(port, USER, PASSWORD);
+        WsClient.setHandler(port, LOGGING_HANDLER);
         return port;
     }
 
