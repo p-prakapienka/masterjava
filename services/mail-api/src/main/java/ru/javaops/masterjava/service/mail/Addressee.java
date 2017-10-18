@@ -1,14 +1,21 @@
 package ru.javaops.masterjava.service.mail;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlValue;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Addressee {
+    @XmlAttribute
     private String email;
+    @XmlValue
     private String name;
 
     public Addressee(String email) {

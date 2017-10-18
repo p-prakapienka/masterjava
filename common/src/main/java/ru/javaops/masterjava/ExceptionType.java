@@ -1,8 +1,11 @@
 package ru.javaops.masterjava;
 
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * Created by Restrictor on 30.05.2017.
  */
+@XmlType(namespace = "http://common.javaops.ru/")
 public enum ExceptionType {
     SYSTEM("Системная ошибка"),
     DATA_BASE("Ошибка базы данных"),

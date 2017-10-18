@@ -15,8 +15,7 @@ public class WsClient<T> {
 
     private final Class<T> serviceClass;
     private final Service service;
-
-    private T port;
+    private String endpointAddress;
 
     static {
         HOSTS = Configs.getConfig("hosts.conf", "hosts");
@@ -28,13 +27,15 @@ public class WsClient<T> {
     }
 
     public void init(String host, String endpointAddress) {
-        port = service.getPort(serviceClass);
-        BindingProvider bp = (BindingProvider)port;
-        Map<String, Object> requestContext = bp.getRequestContext();
-        requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, HOSTS.getString(host) + endpointAddress);
+        this.endpointAddress = HOSTS.getString(host) + endpointAddress;
     }
 
+    // Post is not thread-safe (http://stackoverflow.com/a/10601916/548473)
     public T getPort() {
+        T port = service.getPort(serviceClass);
+        BindingProvider bp = (BindingProvider)port;
+        Map<String, Object> requestContext = bp.getRequestContext();
+        requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endpointAddress);
         return port;
     }
 
