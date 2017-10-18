@@ -18,11 +18,11 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public String sendBulkMail(Set<Addressee> to, Set<Addressee> cc, String subject, String body, List<Attach> attaches) throws WebStateException {
-        return MailSender.sendMail(to, cc, subject, body);
+        return MailSender.sendMail(to, cc, subject, body, attaches);
     }
 
     @Override
     public GroupResult sendIndividualMails(Set<Addressee> to, String subject, String body, List<Attach> attaches) throws WebStateException {
-        return mailServiceExecutor.sendToList(to, subject, body);
+        return mailServiceExecutor.sendToList(to, subject, body, attaches);
     }
 }

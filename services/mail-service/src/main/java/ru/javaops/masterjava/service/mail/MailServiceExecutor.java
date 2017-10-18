@@ -15,11 +15,11 @@ public class MailServiceExecutor {
 
     private final ExecutorService mailExecutor = Executors.newFixedThreadPool(8);
 
-    public GroupResult sendToList(final Set<Addressee> addressees, final String subject, final String body) {
+    public GroupResult sendToList(final Set<Addressee> addressees, final String subject, final String body, final List<Attach> attaches) {
         final CompletionService<MailResult> completionService = new ExecutorCompletionService<>(mailExecutor);
 
         List<Future<MailResult>> futures = addressees.stream()
-                .map(addressee -> completionService.submit(() -> MailSender.sendMail(addressee, subject, body)))
+                .map(addressee -> completionService.submit(() -> MailSender.sendMail(addressee, subject, body, attaches)))
                 .collect(Collectors.toList());
 
         return new Callable<GroupResult>() {
