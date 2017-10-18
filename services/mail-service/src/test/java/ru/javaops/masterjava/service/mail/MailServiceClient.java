@@ -29,10 +29,10 @@ public class MailServiceClient {
                 new Addressee("Bad Email <bad_email.ru>"));
 
         try {
-            String status = mailService.sendBulkMail(addressees, ImmutableSet.of(), "Bulk email subject", "Bulk email body");
+            String status = mailService.sendBulkMail(addressees, ImmutableSet.of(), "Bulk email subject", "Bulk email body", null);
             System.out.println(status);
 
-            GroupResult groupResult = mailService.sendIndividualMails(addressees, "Individual mail subject", "Individual mail body");
+            GroupResult groupResult = mailService.sendIndividualMails(addressees, "Individual mail subject", "Individual mail body", null);
             System.out.println(groupResult);
         } catch (WebStateException e) {
             System.out.println(e);

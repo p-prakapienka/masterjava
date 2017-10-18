@@ -26,7 +26,7 @@ public class SendServlet extends HttpServlet {
         String body = req.getParameter("body");
         String groupResult = null;
         try {
-            groupResult = MailWSClient.sendIndividualMails(MailWSClient.split(users), subject, body).toString();
+            groupResult = MailWSClient.sendIndividualMails(MailWSClient.split(users), subject, body, null).toString();
         } catch (WebStateException e) {
             groupResult = e.toString();
         }
