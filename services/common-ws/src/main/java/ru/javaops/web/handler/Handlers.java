@@ -17,8 +17,8 @@ public class Handlers {
 
     public static class SoapServerLoggingHandler extends SoapLoggingHandler {
 
-        public SoapServerLoggingHandler() {
-            super(Level.DEBUG);
+        public SoapServerLoggingHandler(Level loggingLevel) {
+            super(loggingLevel);
         }
 
         @Override

@@ -22,8 +22,6 @@ public class MailWSClient {
     public static final String PASSWORD = "password";
     private static final SoapClientLoggingHandler LOGGING_HANDLER = new SoapClientLoggingHandler(Level.DEBUG);
 
-    public static final String AUTH_HEADER = AuthUtil.encodeBasicAuthHeader(USER, PASSWORD);
-
     static {
         WS_CLIENT = new WsClient<MailService>(Resources.getResource("wsdl/mailService.wsdl"),
                 new QName("http://mail.javaops.ru/", "MailServiceImplService"),
@@ -58,13 +56,15 @@ public class MailWSClient {
 
     private static MailService getPort() {
         MailService port = WS_CLIENT.getPort(/*new MTOMFeature(1024)*/);
-        WsClient.setAuth(port, USER, PASSWORD);
-        WsClient.setHandler(port, LOGGING_HANDLER);
         return port;
     }
 
     public static Set<Addressee> split(String addressees) {
         Iterable<String> split = Splitter.on(',').trimResults().omitEmptyStrings().split(addressees);
         return ImmutableSet.copyOf(Iterables.transform(split, Addressee::new));
+    }
+
+    public static WsClient.HostConfig getHostConfig() {
+        return WS_CLIENT.getHostConfig();
     }
 }
