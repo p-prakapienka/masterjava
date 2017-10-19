@@ -1,5 +1,7 @@
 package ru.javaops.web;
 
+import static com.google.common.net.HttpHeaders.AUTHORIZATION;
+
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
@@ -8,9 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class AuthUtil {
-    private static final String AUTHORIZATION = "Authorization";
 
-    public static String encodeBasicAuth(String name, String passw) {
+    public static String encodeBasicAuthHeader(String name, String passw) {
         String authString = name + ":" + passw;
         return "Basic " + DatatypeConverter.printBase64Binary(authString.getBytes());
     }
