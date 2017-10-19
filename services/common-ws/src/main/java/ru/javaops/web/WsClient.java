@@ -70,7 +70,7 @@ public class WsClient<T> {
         return hostConfig;
     }
 
-    // Post is not thread-safe (http://stackoverflow.com/a/10601916/548473)
+    //  Post is not thread-safe (http://stackoverflow.com/a/10601916/548473)
     public T getPort(WebServiceFeature... features) {
         T port = service.getPort(serviceClass, features);
         BindingProvider bp = (BindingProvider)port;

@@ -13,7 +13,7 @@ public class Attachments {
         return new Attach(name, new DataHandler(new InputStreamDataSource(inputStream)));
     }
 
-    //  http://stackoverflow.com/a/10783565/548473
+    //    http://stackoverflow.com/a/10783565/548473
     @AllArgsConstructor
     private static class InputStreamDataSource implements DataSource {
         private InputStream inputStream;

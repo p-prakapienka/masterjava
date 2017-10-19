@@ -37,6 +37,7 @@ public class JmsListener implements ServletContextListener {
                 try {
                     while (!Thread.interrupted()) {
                         Message m = receiver.receive();
+                        // TODO implement mail sending
                         if (m instanceof TextMessage) {
                             TextMessage tm = (TextMessage)m;
                             String text = tm.getText();

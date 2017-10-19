@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.io.Resources;
 import java.util.List;
+import javax.xml.ws.soap.MTOMFeature;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.event.Level;
 import ru.javaops.web.AuthUtil;
@@ -13,6 +14,7 @@ import ru.javaops.web.WsClient;
 
 import javax.xml.namespace.QName;
 import java.util.Set;
+import ru.javaops.web.handler.Handlers;
 import ru.javaops.web.handler.Handlers.SoapClientLoggingHandler;
 
 @Slf4j
@@ -20,7 +22,7 @@ public class MailWSClient {
     private static final WsClient<MailService> WS_CLIENT;
     public static final String USER = "user";
     public static final String PASSWORD = "password";
-    private static final SoapClientLoggingHandler LOGGING_HANDLER = new SoapClientLoggingHandler(Level.DEBUG);
+    private static final SoapClientLoggingHandler LOGGING_HANDLER = new Handlers.SoapClientLoggingHandler(Level.DEBUG);
 
     static {
         WS_CLIENT = new WsClient<MailService>(Resources.getResource("wsdl/mailService.wsdl"),
@@ -55,7 +57,8 @@ public class MailWSClient {
     }
 
     private static MailService getPort() {
-        MailService port = WS_CLIENT.getPort(/*new MTOMFeature(1024)*/);
+//        http://stackoverflow.com/a/41854551/548473
+        MailService port = WS_CLIENT.getPort(new MTOMFeature(1024));
         return port;
     }
 

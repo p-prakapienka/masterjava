@@ -12,6 +12,16 @@ import javax.xml.stream.XMLStreamWriter;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.event.Level;
 
+/**
+ * Refactored from:
+ *
+ * @see {http://weblogs.java.net/blog/ramapulavarthi/archive/2007/12/extend_your_web.html
+ * http://fisheye5.cenqua.com/browse/jax-ws-sources/jaxws-ri/samples/efficient_handler/src/efficient_handler/common/LoggingHandler.java?r=MAIN}
+ * <p/>
+ * This simple LoggingHandler will log the contents of incoming
+ * and outgoing messages. This is implemented as a MessageHandler
+ * for better performance over SOAPHandler.
+ */
 @Slf4j
 public abstract class SoapLoggingHandler extends SoapBaseHandler {
 

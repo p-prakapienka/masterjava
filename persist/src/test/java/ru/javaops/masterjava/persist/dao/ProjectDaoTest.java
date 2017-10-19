@@ -27,7 +27,7 @@ public class ProjectDaoTest extends AbstractDaoTest<ProjectDao> {
     @Test
     public void getAll() throws Exception {
         final Map<String, Project> projects = dao.getAsMap();
-        assertEquals(projects, PROJECTS);
+        assertEquals(PROJECTS, projects);
         System.out.println(projects.values());
     }
 }

@@ -1,6 +1,5 @@
 package ru.javaops.masterjava.service.mail;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import ru.javaops.web.WebStateException;
 
