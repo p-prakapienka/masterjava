@@ -23,7 +23,6 @@ import java.util.Set;
 //@MTOM
 @HandlerChain(file = "mailWsHandlers.xml")
 public class MailServiceImpl implements MailService {
-    private final MailServiceExecutor mailServiceExecutor = new MailServiceExecutor();
 
 //    @Resource
 //    private WebServiceContext wsContext;
@@ -45,6 +44,6 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public GroupResult sendIndividualMails(Set<Addressee> to, String subject, String body, List<Attach> attaches) throws WebStateException {
-        return mailServiceExecutor.sendToList(to, subject, body, attaches);
+        return MailServiceExecutor.sendToList(to, subject, body, attaches);
     }
 }

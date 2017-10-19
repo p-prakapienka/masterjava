@@ -13,9 +13,9 @@ public class MailServiceExecutor {
     private static final String INTERRUPTED_BY_TIMEOUT = "+++ Interrupted by timeout";
     private static final String INTERRUPTED_EXCEPTION = "+++ InterruptedException";
 
-    private final ExecutorService mailExecutor = Executors.newFixedThreadPool(8);
+    private static final ExecutorService mailExecutor = Executors.newFixedThreadPool(8);
 
-    public GroupResult sendToList(final Set<Addressee> addressees, final String subject, final String body, final List<Attach> attaches) {
+    public static GroupResult sendToList(final Set<Addressee> addressees, final String subject, final String body, final List<Attach> attaches) {
         final CompletionService<MailResult> completionService = new ExecutorCompletionService<>(mailExecutor);
 
         List<Future<MailResult>> futures = addressees.stream()

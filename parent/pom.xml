@@ -21,7 +21,7 @@
         <logback.version>1.1.7</logback.version>
 
         <!-- Can be overriten in ${MAVEN_HOME}\conf\settings.xml-->
-        <masterjava.config>/apps/masterjava/config/</masterjava.config>
+        <masterjava.config>/opt/apps/masterjava/config/</masterjava.config>
     </properties>
 
     <build>
@@ -109,6 +109,12 @@
             <artifactId>jcl-over-slf4j</artifactId>
             <version>${slf4j.version}</version>
             <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
 
         <dependency>

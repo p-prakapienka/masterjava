@@ -16,7 +16,25 @@
     <version>1.0-SNAPSHOT</version>
     <name>Parent Web</name>
 
+    <properties>
+        <maven.resources.everwrite>true</maven.resources.everwrite>
+    </properties>
+
     <build>
+        <resources>
+            <resource>
+                <directory>${masterjava.config}</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>logback.xml</include>
+                    <include>app.conf</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -80,20 +98,6 @@
             </plugin>
 
         </plugins>
-
-        <resources>
-            <resource>
-                <directory>${masterjava.config}</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>logback.xml</include>
-                    <include>app.conf</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
     </build>
 
     <dependencies>

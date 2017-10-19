@@ -21,12 +21,12 @@ import java.util.Set;
 public class MailSender {
     private static final MailCaseDao MAIL_CASE_DAO = DBIProvider.getDao(MailCaseDao.class);
 
-    static MailResult sendMail(Addressee to, String subject, String body, List<Attach> attaches) throws WebStateException {
+    public static MailResult sendMail(Addressee to, String subject, String body, List<Attach> attaches) throws WebStateException {
         val state = sendMail(ImmutableSet.of(to), ImmutableSet.of(), subject, body, attaches);
         return new MailResult(to.getEmail(), state);
     }
 
-    static String sendMail(Set<Addressee> to, Set<Addressee> cc, String subject, String body, List<Attach> attaches) throws WebStateException {
+    public static String sendMail(Set<Addressee> to, Set<Addressee> cc, String subject, String body, List<Attach> attaches) throws WebStateException {
         log.info("Send mail to \'" + to + "\' cc \'" + cc + "\' subject \'" + subject + (log.isDebugEnabled() ? "\nbody=" + body : ""));
         String state = MailResult.OK;
         try {
