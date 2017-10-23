@@ -9,7 +9,6 @@ import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,10 +29,10 @@ public class JmsSendServlet extends HttpServlet {
         super.init(config);
         try {
             InitialContext initCtx = new InitialContext();
-            ConnectionFactory connectionFactory = (ConnectionFactory)initCtx.lookup("java:comp/env/jms/ConnectionFactory");
+            ConnectionFactory connectionFactory = (ConnectionFactory)initCtx.lookup("jms/ConnectionFactory");
             connection = connectionFactory.createConnection();
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            producer = session.createProducer((Destination)initCtx.lookup("java:comp/env/jms/queue/MailQueue"));
+            producer = session.createProducer((Destination)initCtx.lookup("jms/queue/MailQueue"));
         } catch (Exception e) {
             throw new IllegalStateException("JMS init failed", e);
         }

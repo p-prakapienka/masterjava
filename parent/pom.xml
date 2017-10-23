@@ -21,7 +21,7 @@
         <logback.version>1.1.7</logback.version>
 
         <!-- Can be overriten in ${MAVEN_HOME}\conf\settings.xml-->
-        <masterjava.config>/apps/masterjava/config/</masterjava.config>
+        <masterjava.config>/opt/apps/masterjava/config/</masterjava.config>
     </properties>
 
     <build>
